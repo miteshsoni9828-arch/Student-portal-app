@@ -1,0 +1,31 @@
+name: Build iOS Simulator App
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Arrange files
+        run: |
+          mkdir -p StudentPortal
+          mv *.swift logo.jpg StudentPortal/
+          rm -f Contents*.json
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen generate
+      - name: Build for iOS Simulator
+        run: |
+          xcodebuild -project StudentPortal.xcodeproj -scheme StudentPortal \
+            -configuration Debug -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+      - name: Zip the .app
+        run: |
+          cd build/Build/Products/Debug-iphonesimulator
+          zip -r "$GITHUB_WORKSPACE/StudentPortal-app.zip" StudentPortal.app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: StudentPortal-app
+          path: StudentPortal-app.zip
