@@ -1,0 +1,25 @@
+name: StudentPortal
+options:
+  bundleIdPrefix: com.lab
+  deploymentTarget:
+    iOS: "15.0"
+targets:
+  StudentPortal:
+    type: application
+    platform: iOS
+    sources: [StudentPortal]
+    info:
+      path: StudentPortal/Info.plist
+      properties:
+        CFBundleDisplayName: Student Portal
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lab.StudentPortal
+        SWIFT_VERSION: "5.0"
